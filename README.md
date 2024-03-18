@@ -17,3 +17,15 @@ If you specify the elements required for this page with an `id` attribute starti
   </body>
 </html
 ```
+
+### Event
+
+Emit an `included` event when processing is complete.
+
+```JavaScript
+document.addEventListener('included', (event) => {
+  for (const id in event.detail) {
+    console.log(id, event.detail[id]);
+  }
+});
+```

@@ -7,12 +7,17 @@ if (template && template.href) {
   fetch(template.href, {method: 'GET'})
     .then((response) => response.ok ? response.text() : '')
     .then((response) => {
+      const detail = {};
       const doc = new DOMParser().parseFromString(response, 'text/html');
       doc.querySelectorAll('[id^="include-"]').forEach((from) => {
         const to = document.getElementById(from.id);
         if (to && to.tagName == from.tagName) {
           to.replaceChildren(...from.children);
+          detail[from.id] = to;
+        } else {
+          detail[from.id] = null;
         }
       });
+      document.dispatchEvent(new CustomEvent("included", { detail }));
     });
 }
